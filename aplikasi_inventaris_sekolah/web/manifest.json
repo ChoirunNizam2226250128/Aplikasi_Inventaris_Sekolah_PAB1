@@ -1,6 +1,6 @@
 {
-    "name": "aplikasi_inventaris_sekolah",
-    "short_name": "aplikasi_inventaris_sekolah",
+    "name": "inventaris",
+    "short_name": "inventaris",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
