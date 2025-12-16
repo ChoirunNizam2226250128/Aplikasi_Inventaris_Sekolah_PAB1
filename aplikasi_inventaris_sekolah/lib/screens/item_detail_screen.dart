@@ -133,8 +133,37 @@ class ItemDetailScreen extends StatelessWidget {
                       label: "Jumlah",
                       value: "${item.quantity} unit",
                     ),
+                    const Divider(),
+                    _infoRow(
+                      icon: Icons.check_circle,
+                      label: "Kondisi",
+                      value: item.condition ?? "-",
+                    ),
                   ],
                 ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // ================= DESKRIPSI =================
+            const Text(
+              "Deskripsi",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                (item.description != null && item.description!.isNotEmpty)
+                    ? item.description!
+                    : "Tidak ada deskripsi.",
+                style: const TextStyle(fontSize: 14),
               ),
             ),
           ],

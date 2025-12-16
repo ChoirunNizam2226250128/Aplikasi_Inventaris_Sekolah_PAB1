@@ -22,6 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
       quantity: 10,
       location: "Ruang TU",
       imagePath: null,
+      condition: "Baik",
+      description: "Laptop inventaris sekolah untuk administrasi TU",
     ),
     Item(
       id: "2",
@@ -30,6 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
       quantity: 30,
       location: "Kelas 7A",
       imagePath: null,
+      condition: "Baik",
+      description: "Digunakan untuk kegiatan belajar mengajar",
     ),
   ];
 

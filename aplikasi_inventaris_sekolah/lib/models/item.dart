@@ -6,6 +6,10 @@ class Item {
   final String location;
   final String? imagePath; // nullable supaya tidak wajib ada foto
 
+  // ===== TAMBAHAN BARU =====
+  final String condition;
+  final String description;
+
   Item({
     required this.id,
     required this.name,
@@ -13,6 +17,8 @@ class Item {
     required this.quantity,
     required this.location,
     this.imagePath,
+    required this.condition,
+    required this.description,
   });
 
   // Utility agar mudah update sebagian field
@@ -23,6 +29,8 @@ class Item {
     int? quantity,
     String? location,
     String? imagePath,
+    String? condition,
+    String? description,
   }) {
     return Item(
       id: id ?? this.id,
@@ -31,6 +39,8 @@ class Item {
       quantity: quantity ?? this.quantity,
       location: location ?? this.location,
       imagePath: imagePath ?? this.imagePath,
+      condition: condition ?? this.condition,
+      description: description ?? this.description,
     );
   }
 }

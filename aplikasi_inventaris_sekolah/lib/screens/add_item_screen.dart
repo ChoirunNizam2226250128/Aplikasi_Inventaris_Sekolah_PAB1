@@ -15,6 +15,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final TextEditingController categoryController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
+  String condition = "Baik"; // default
 
   File? _image;
 
@@ -39,6 +42,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
       quantity: int.tryParse(quantityController.text) ?? 0,
       location: locationController.text,
       imagePath: _image?.path,
+      condition: condition,
+      description: descriptionController.text,
     );
 
     Navigator.pop(context, newItem);
@@ -59,70 +64,68 @@ class _AddItemScreenState extends State<AddItemScreen> {
             GestureDetector(
               onTap: _pickImage,
               child: _image != null
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.file(
-                        _image!,
-                        height: 180,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                    )
+                  ? Image.file(_image!, height: 180, fit: BoxFit.cover)
                   : Container(
                       height: 180,
-                      width: double.infinity,
                       decoration: BoxDecoration(
                         color: Colors.indigo.shade50,
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.indigo.shade100),
                       ),
                       child: const Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.add_a_photo,
-                              color: Colors.indigo,
-                              size: 40,
-                            ),
-                            Text(
-                              "Tambah Gambar",
-                              style: TextStyle(color: Colors.indigo),
-                            ),
-                          ],
-                        ),
+                        child: Icon(Icons.add_a_photo, size: 40),
                       ),
                     ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
+
             TextField(
               controller: nameController,
               decoration: const InputDecoration(labelText: "Nama Barang"),
             ),
-            const SizedBox(height: 10),
             TextField(
               controller: categoryController,
               decoration: const InputDecoration(labelText: "Kategori"),
             ),
-            const SizedBox(height: 10),
             TextField(
               controller: quantityController,
               decoration: const InputDecoration(labelText: "Jumlah"),
               keyboardType: TextInputType.number,
             ),
-            const SizedBox(height: 10),
             TextField(
               controller: locationController,
               decoration: const InputDecoration(labelText: "Lokasi"),
             ),
+
+            // ===== KONDISI BARANG =====
+            const SizedBox(height: 12),
+            DropdownButtonFormField<String>(
+              value: condition,
+              decoration: const InputDecoration(labelText: "Kondisi Barang"),
+              items: const [
+                DropdownMenuItem(value: "Baik", child: Text("Baik")),
+                DropdownMenuItem(
+                  value: "Rusak Ringan",
+                  child: Text("Rusak Ringan"),
+                ),
+                DropdownMenuItem(
+                  value: "Rusak Berat",
+                  child: Text("Rusak Berat"),
+                ),
+              ],
+              onChanged: (v) => setState(() => condition = v!),
+            ),
+
+            // ===== DESKRIPSI =====
+            const SizedBox(height: 12),
+            TextField(
+              controller: descriptionController,
+              decoration: const InputDecoration(labelText: "Deskripsi"),
+              maxLines: 3,
+            ),
+
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _saveItem,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.indigo,
-                foregroundColor: Colors.white,
-                minimumSize: const Size(double.infinity, 50),
-              ),
               child: const Text("Simpan Barang"),
             ),
           ],
