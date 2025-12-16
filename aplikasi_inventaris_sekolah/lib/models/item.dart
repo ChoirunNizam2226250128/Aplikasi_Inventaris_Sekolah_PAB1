@@ -4,7 +4,7 @@ class Item {
   final String category;
   final int quantity;
   final String location;
-  final String? imagePath; // nullable karena bisa tanpa gambar
+  final String? imagePath; // nullable supaya tidak wajib ada foto
 
   Item({
     required this.id,
@@ -15,6 +15,7 @@ class Item {
     this.imagePath,
   });
 
+  // Utility agar mudah update sebagian field
   Item copyWith({
     String? id,
     String? name,

@@ -72,18 +72,20 @@ class ItemDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // ================= IMAGE =================
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: item.imagePath != null
                   ? Image.file(
                       File(item.imagePath!),
-                      height: 250,
+                      height: 220,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     )
                   : Container(
-                      height: 250,
-                      color: Colors.indigo.shade100,
+                      height: 220,
+                      width: double.infinity,
+                      decoration: BoxDecoration(color: Colors.indigo.shade100),
                       child: const Center(
                         child: Icon(
                           Icons.image_not_supported,
@@ -93,41 +95,70 @@ class ItemDetailScreen extends StatelessWidget {
                       ),
                     ),
             ),
+
             const SizedBox(height: 20),
+
+            // ================= TITLE =================
             Text(
               item.name,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                const Icon(Icons.category, color: Colors.indigo),
-                const SizedBox(width: 8),
-                Text(item.category, style: const TextStyle(fontSize: 16)),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                const Icon(Icons.location_on, color: Colors.indigo),
-                const SizedBox(width: 8),
-                Text(item.location, style: const TextStyle(fontSize: 16)),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                const Icon(Icons.inventory_2, color: Colors.indigo),
-                const SizedBox(width: 8),
-                Text(
-                  "${item.quantity} unit",
-                  style: const TextStyle(fontSize: 16),
+
+            const SizedBox(height: 16),
+
+            // ================= INFO CARD =================
+            Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(14),
+                child: Column(
+                  children: [
+                    _infoRow(
+                      icon: Icons.category,
+                      label: "Kategori",
+                      value: item.category,
+                    ),
+                    const Divider(),
+                    _infoRow(
+                      icon: Icons.location_on,
+                      label: "Lokasi",
+                      value: item.location,
+                    ),
+                    const Divider(),
+                    _infoRow(
+                      icon: Icons.inventory_2,
+                      label: "Jumlah",
+                      value: "${item.quantity} unit",
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  // ================= INFO ROW =================
+  Widget _infoRow({
+    required IconData icon,
+    required String label,
+    required String value,
+  }) {
+    return Row(
+      children: [
+        Icon(icon, color: Colors.indigo),
+        const SizedBox(width: 12),
+        Expanded(child: Text(label, style: const TextStyle(fontSize: 14))),
+        Text(
+          value,
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        ),
+      ],
     );
   }
 }

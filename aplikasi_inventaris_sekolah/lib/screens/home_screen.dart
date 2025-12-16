@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 12,
                   crossAxisSpacing: 12,
-                  childAspectRatio: 0.85,
+                  childAspectRatio: 0.82,
                 ),
                 itemBuilder: (context, index) {
                   final item = items[index];
@@ -97,14 +97,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                     child: Card(
-                      elevation: 3,
+                      elevation: 4,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(18),
                       ),
                       clipBehavior: Clip.antiAlias,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // ================= IMAGE =================
                           Expanded(
                             child: item.imagePath != null
                                 ? Image.file(
@@ -113,23 +114,66 @@ class _HomeScreenState extends State<HomeScreen> {
                                     width: double.infinity,
                                   )
                                 : Container(
-                                    color: Colors.indigo.shade100,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Colors.indigo.shade200,
+                                          Colors.indigo.shade100,
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      ),
+                                    ),
                                     child: const Center(
                                       child: Icon(
-                                        Icons.inventory,
-                                        size: 48,
-                                        color: Colors.indigo,
+                                        Icons.inventory_2_rounded,
+                                        size: 50,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
                           ),
+
+                          // ================= INFO =================
                           Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Text(
-                              item.name,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item.name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  item.category,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey.shade600,
+                                  ),
+                                ),
+                                const SizedBox(height: 6),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.inventory,
+                                      size: 14,
+                                      color: Colors.indigo,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      "Jumlah: ${item.quantity}",
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ],
