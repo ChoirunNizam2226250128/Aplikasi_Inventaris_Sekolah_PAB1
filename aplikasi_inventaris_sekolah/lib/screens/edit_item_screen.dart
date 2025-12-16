@@ -12,8 +12,6 @@ class EditItemScreen extends StatefulWidget {
 }
 
 class _EditItemScreenState extends State<EditItemScreen> {
-  final _formKey = GlobalKey<FormState>();
-
   late String name;
   late String category;
   late int quantity;
@@ -34,6 +32,17 @@ class _EditItemScreenState extends State<EditItemScreen> {
     description = widget.item.description;
   }
 
+  Future pickImage() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.gallery);
+
+    if (picked != null) {
+      setState(() {
+        imageFile = File(picked.path);
+      });
+    }
+  }
+
   void saveEdit() {
     final updatedItem = Item(
       id: widget.item.id,
@@ -52,11 +61,48 @@ class _EditItemScreenState extends State<EditItemScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Edit Barang")),
+      appBar: AppBar(
+        title: const Text("Edit Barang"),
+        backgroundColor: Colors.orangeAccent,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            // ===== UPLOAD GAMBAR =====
+            ClipRRect(
+              borderRadius: BorderRadius.circular(14),
+              child: imageFile != null
+                  ? Image.file(
+                      imageFile!,
+                      width: 150,
+                      height: 150,
+                      fit: BoxFit.cover,
+                    )
+                  : widget.item.imagePath != null
+                  ? Image.file(
+                      File(widget.item.imagePath!),
+                      width: 150,
+                      height: 150,
+                      fit: BoxFit.cover,
+                    )
+                  : Container(
+                      width: 150,
+                      height: 150,
+                      color: Colors.grey.shade200,
+                      child: const Icon(Icons.image, size: 60),
+                    ),
+            ),
+            const SizedBox(height: 8),
+            TextButton.icon(
+              onPressed: pickImage,
+              icon: const Icon(Icons.upload),
+              label: const Text("Ganti Foto"),
+            ),
+
+            const SizedBox(height: 20),
+
+            // ===== FORM =====
             TextFormField(
               initialValue: name,
               decoration: const InputDecoration(labelText: "Nama Barang"),
@@ -79,7 +125,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
               onChanged: (v) => location = v,
             ),
 
-            // ===== KONDISI =====
             const SizedBox(height: 12),
             DropdownButtonFormField<String>(
               value: condition,
@@ -98,7 +143,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
               onChanged: (v) => condition = v!,
             ),
 
-            // ===== DESKRIPSI =====
             const SizedBox(height: 12),
             TextFormField(
               initialValue: description,
