@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+
 import '../models/item.dart';
 import 'add_item_screen.dart';
 import 'item_detail_screen.dart';
-import 'profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String username;
@@ -38,18 +38,24 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   void addItem(Item newItem) {
-    setState(() => items.add(newItem));
+    setState(() {
+      items.add(newItem);
+    });
   }
 
   void editItem(Item updatedItem) {
     setState(() {
       final index = items.indexWhere((i) => i.id == updatedItem.id);
-      if (index != -1) items[index] = updatedItem;
+      if (index != -1) {
+        items[index] = updatedItem;
+      }
     });
   }
 
   void deleteItem(String id) {
-    setState(() => items.removeWhere((i) => i.id == id));
+    setState(() {
+      items.removeWhere((i) => i.id == id);
+    });
   }
 
   @override
@@ -59,22 +65,15 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text("Inventaris Sekolah"),
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => ProfileScreen(username: widget.username),
-                ),
-              );
-            },
-          ),
-        ],
       ),
+
       body: items.isEmpty
-          ? const Center(child: Text("Belum ada barang"))
+          ? const Center(
+              child: Text(
+                "Belum ada barang",
+                style: TextStyle(fontSize: 16),
+              ),
+            )
           : Padding(
               padding: const EdgeInsets.all(10),
               child: GridView.builder(
@@ -87,9 +86,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 itemBuilder: (context, index) {
                   final item = items[index];
+
                   return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
+                    onTap: () async {
+                      await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (_) => ItemDetailScreen(
@@ -187,6 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
+
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 13, 193, 130),
         onPressed: () async {
@@ -194,7 +195,10 @@ class _HomeScreenState extends State<HomeScreen> {
             context,
             MaterialPageRoute(builder: (_) => const AddItemScreen()),
           );
-          if (newItem != null) addItem(newItem);
+
+          if (newItem != null) {
+            addItem(newItem);
+          }
         },
         child: const Icon(Icons.add),
       ),
