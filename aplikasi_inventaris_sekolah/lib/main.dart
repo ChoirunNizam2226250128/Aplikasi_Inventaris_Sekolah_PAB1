@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screens/splash_screen.dart'; // ✅ TAMBAH INI
 import 'screens/login_screen.dart';
 
 void main() {
@@ -13,12 +14,14 @@ class InventarisApp extends StatelessWidget {
     return MaterialApp(
       title: 'Inventaris Sekolah',
       debugShowCheckedModeBanner: false,
+
+      home: const SplashScreen(),
+
       theme: ThemeData(
         colorSchemeSeed: const Color.fromARGB(255, 91, 104, 19),
         useMaterial3: true,
         fontFamily: 'Poppins',
       ),
-      home: const LoginScreen(),
     );
   }
 }
