@@ -2,9 +2,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../models/item.dart';
+import '../data/item_data.dart';
+import '../data/favorite_data.dart';
 import 'add_item_screen.dart';
 import 'item_detail_screen.dart';
-import '../data/favorite_data.dart';
 
 class HomeScreen extends StatefulWidget {
   final String username;
@@ -15,46 +16,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Item> items = [
-    Item(
-      id: "1",
-      name: "Laptop ASUS",
-      category: "Elektronik",
-      quantity: 10,
-      location: "Ruang TU",
-      imagePath: null,
-      condition: "Baik",
-      description: "Laptop inventaris sekolah untuk administrasi TU",
-    ),
-    Item(
-      id: "2",
-      name: "Kursi Belajar",
-      category: "Perabot",
-      quantity: 30,
-      location: "Kelas 7A",
-      imagePath: null,
-      condition: "Baik",
-      description: "Digunakan untuk kegiatan belajar mengajar",
-    ),
-  ];
-
   void addItem(Item newItem) {
-    setState(() => items.add(newItem));
+    setState(() {
+      ItemData.items.add(newItem);
+    });
   }
 
   void editItem(Item updatedItem) {
     setState(() {
-      final index = items.indexWhere((i) => i.id == updatedItem.id);
-      if (index != -1) items[index] = updatedItem;
+      final index = ItemData.items.indexWhere((i) => i.id == updatedItem.id);
+      if (index != -1) {
+        ItemData.items[index] = updatedItem;
+      }
     });
   }
 
   void deleteItem(String id) {
-    setState(() => items.removeWhere((i) => i.id == id));
+    setState(() {
+      ItemData.items.removeWhere((i) => i.id == id);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final items = ItemData.items;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
