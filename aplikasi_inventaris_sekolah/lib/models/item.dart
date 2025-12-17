@@ -4,9 +4,8 @@ class Item {
   final String category;
   final int quantity;
   final String location;
-  final String? imagePath; // nullable supaya tidak wajib ada foto
+  final String? imagePath;
 
-  // ===== TAMBAHAN BARU =====
   final String condition;
   final String description;
 
@@ -21,7 +20,6 @@ class Item {
     required this.description,
   });
 
-  // Utility agar mudah update sebagian field
   Item copyWith({
     String? id,
     String? name,

@@ -17,7 +17,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final TextEditingController locationController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
-  String condition = "Baik"; // default
+  String condition = "Baik"; 
 
   File? _image;
 

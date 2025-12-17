@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../models/item.dart';
 import 'add_item_screen.dart';
 import 'item_detail_screen.dart';
+import '../data/favorite_data.dart';
 
 class HomeScreen extends StatefulWidget {
   final String username;
@@ -67,126 +68,132 @@ class _HomeScreenState extends State<HomeScreen> {
         foregroundColor: Colors.white,
       ),
 
-      body: items.isEmpty
-          ? const Center(
-              child: Text(
-                "Belum ada barang",
-                style: TextStyle(fontSize: 16),
-              ),
-            )
-          : Padding(
-              padding: const EdgeInsets.all(10),
-              child: GridView.builder(
-                itemCount: items.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
-                  childAspectRatio: 0.82,
-                ),
-                itemBuilder: (context, index) {
-                  final item = items[index];
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: GridView.builder(
+          itemCount: items.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 12,
+            crossAxisSpacing: 12,
+            childAspectRatio: 0.82,
+          ),
+          itemBuilder: (context, index) {
+            final item = items[index];
 
-                  return GestureDetector(
-                    onTap: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => ItemDetailScreen(
-                            item: item,
-                            onEdit: editItem,
-                            onDelete: () => deleteItem(item.id),
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ItemDetailScreen(
+                      item: item,
+                      onEdit: editItem,
+                      onDelete: () => deleteItem(item.id),
+                    ),
+                  ),
+                );
+              },
+              child: Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // ===== IMAGE =====
+                        Expanded(
+                          child: item.imagePath != null
+                              ? Image.file(
+                                  File(item.imagePath!),
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                )
+                              : Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Colors.indigo.shade200,
+                                        Colors.indigo.shade100,
+                                      ],
+                                    ),
+                                  ),
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.inventory_2_rounded,
+                                      size: 50,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                        ),
+
+                        // ===== INFO =====
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                item.category,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                "Jumlah: ${item.quantity}",
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    },
-                    child: Card(
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                      clipBehavior: Clip.antiAlias,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // ================= IMAGE =================
-                          Expanded(
-                            child: item.imagePath != null
-                                ? Image.file(
-                                    File(item.imagePath!),
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                  )
-                                : Container(
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Colors.indigo.shade200,
-                                          Colors.indigo.shade100,
-                                        ],
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                      ),
-                                    ),
-                                    child: const Center(
-                                      child: Icon(
-                                        Icons.inventory_2_rounded,
-                                        size: 50,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                          ),
+                      ],
+                    ),
 
-                          // ================= INFO =================
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.name,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  item.category,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey.shade600,
-                                  ),
-                                ),
-                                const SizedBox(height: 6),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.inventory,
-                                      size: 14,
-                                      color: Colors.indigo,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      "Jumlah: ${item.quantity}",
-                                      style: const TextStyle(fontSize: 12),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                    // ===== ❤️ FAVORITE =====
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            FavoriteData.toggleFavorite(item);
+                          });
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            FavoriteData.isFavorite(item)
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: Colors.red,
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  );
-                },
+                  ],
+                ),
               ),
-            ),
+            );
+          },
+        ),
+      ),
 
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 13, 193, 130),
