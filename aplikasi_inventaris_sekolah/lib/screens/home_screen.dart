@@ -20,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       ItemData.items.add(newItem);
     });
+    ItemData.saveItems();
   }
 
   void editItem(Item updatedItem) {
@@ -29,12 +30,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ItemData.items[index] = updatedItem;
       }
     });
+    ItemData.saveItems();
   }
 
   void deleteItem(String id) {
     setState(() {
       ItemData.items.removeWhere((i) => i.id == id);
     });
+    ItemData.saveItems();
   }
 
   @override
@@ -54,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.indigo.shade400,
+        backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
       ),
 
@@ -67,8 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [Colors.indigo.shade400, Colors.indigo.shade700],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
               ),
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(22),
@@ -233,7 +234,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
 
-            // ❤️ FAVORIT
             Positioned(
               top: 8,
               right: 8,
@@ -260,7 +260,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // ================= INFO BOX =================
   Widget _infoBox({
     required IconData icon,
     required String title,

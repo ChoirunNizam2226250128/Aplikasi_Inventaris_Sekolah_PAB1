@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'screens/splash_screen.dart'; // ✅ TAMBAH INI
-import 'screens/login_screen.dart';
+import 'screens/splash_screen.dart';
+import 'data/item_data.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // ✅ LOAD DATA BARANG DARI STORAGE
+  await ItemData.loadItems();
+
   runApp(const InventarisApp());
 }
 
@@ -14,9 +19,7 @@ class InventarisApp extends StatelessWidget {
     return MaterialApp(
       title: 'Inventaris Sekolah',
       debugShowCheckedModeBanner: false,
-
       home: const SplashScreen(),
-
       theme: ThemeData(
         colorSchemeSeed: const Color.fromARGB(255, 91, 104, 19),
         useMaterial3: true,

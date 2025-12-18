@@ -5,7 +5,6 @@ class Item {
   final int quantity;
   final String location;
   final String? imagePath;
-
   final String condition;
   final String description;
 
@@ -19,6 +18,32 @@ class Item {
     required this.condition,
     required this.description,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'category': category,
+      'quantity': quantity,
+      'location': location,
+      'imagePath': imagePath,
+      'condition': condition,
+      'description': description,
+    };
+  }
+
+  factory Item.fromMap(Map<String, dynamic> map) {
+    return Item(
+      id: map['id'],
+      name: map['name'],
+      category: map['category'],
+      quantity: map['quantity'],
+      location: map['location'],
+      imagePath: map['imagePath'],
+      condition: map['condition'],
+      description: map['description'],
+    );
+  }
 
   Item copyWith({
     String? id,
